@@ -1,0 +1,114 @@
+#pragma once
+
+#include <array>
+#include <memory>
+#include <vector>
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
+#include "ink/gui/font.h"
+#include "ink/gui/widget.h"
+
+
+namespace ink {
+
+struct UserInput {
+    enum class Axis {
+        LEFT_X,
+        LEFT_Y,
+        RIGHT_X,
+        RIGHT_Y,
+        COUNT
+    };
+    enum class Button {
+        A,
+        B,
+        X,
+        Y,
+        LB,
+        RB,
+        COUNT
+    };
+
+    bool valid;
+    std::array<double, (std::size_t)Axis::COUNT> axes;
+    std::array<bool, (std::size_t)Button::COUNT> buttons;
+};
+
+class Window {
+public:
+    Window(const std::string& title):
+        initialised(false),
+        window(nullptr),
+        title(title)
+    {}
+    ~Window()
+    {
+        shutdown();
+    }
+
+    void add_widget(std::shared_ptr<Widget> widget)
+    {
+        this->widgets.push_back(widget);
+    }
+
+    bool running() const
+    {
+        return !glfwWindowShouldClose(window);
+    }
+
+    void run_once()
+    {
+        poll_events();
+        render_start();
+        for (auto& widget: widgets) {
+            ImGui::Begin(widget->name().c_str());
+            widget->render();
+            ImGui::End();
+        }
+        render_end();
+    }
+
+    bool run()
+    {
+        if (!init()) {
+            return false;
+        }
+        while (running()) {
+            run_once();
+        }
+        shutdown();
+        return true;
+    }
+
+
+private:
+    bool init();
+    void poll_events();
+    void render_start();
+    void render_end();
+    void shutdown();
+
+    struct Config {
+        Font font = Font::DejaVuSans;
+        int font_size = 18;
+        int width = 900;
+        int height = 600;
+        bool vsync = true;
+    };
+
+    bool initialised;
+    GLFWwindow* window;
+    std::string title;
+    Config config;
+    UserInput user_input;
+
+    std::vector<std::shared_ptr<Widget>> widgets;
+};
+
+} // namespace ink
