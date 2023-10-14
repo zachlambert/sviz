@@ -45,6 +45,12 @@ FetchContent_Declare(sentinel
 )
 FetchContent_MakeAvailable(sentinel)
 
+FetchContent_Declare(owl
+    GIT_REPOSITORY https://github.com/zachlambert/owl.git
+    GIT_TAG master
+)
+FetchContent_MakeAvailable(owl)
+
 
 # Library
 
