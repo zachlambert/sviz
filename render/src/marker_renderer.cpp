@@ -10,7 +10,6 @@
 namespace ink {
 
 MarkerRenderer::MarkerRenderer():
-    label("marker"),
     resolution(0.2),
     init_done(false),
     generate_done(false),

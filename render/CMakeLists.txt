@@ -22,6 +22,7 @@ add_library(ink_render SHARED
     src/camera_controller.cpp
     src/grid_renderer.cpp
     src/marker_renderer.cpp
+    src/mesh_renderer.cpp
     src/shader.cpp
     src/viewport.cpp
 )

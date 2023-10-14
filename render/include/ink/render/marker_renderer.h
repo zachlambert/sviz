@@ -37,7 +37,6 @@ private:
     std::atomic<bool> generate_done;
     bool init_done;
 
-    const std::string label;
     float resolution;
 
     using Mesh = owl::Mesh<
