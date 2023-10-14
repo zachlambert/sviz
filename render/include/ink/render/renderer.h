@@ -14,7 +14,7 @@ public:
 class Renderers {
 public:
     template <typename T>
-    std::shared_ptr<T> get_renderer()
+    std::shared_ptr<T> get()
     {
         static_assert(std::is_base_of_v<Renderer, T>);
         for (auto& renderer: renderers) {

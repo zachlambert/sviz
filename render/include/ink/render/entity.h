@@ -6,7 +6,8 @@ namespace ink {
 
 class Entity {
 public:
-    virtual void render(Renderers& renderers) const = 0;
+    virtual bool init(Renderers& renderers) = 0;
+    virtual void render(Renderers& renderers) = 0;
 };
 
 } // namespace ink

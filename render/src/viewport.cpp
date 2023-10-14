@@ -1,5 +1,7 @@
 #include "ink/render/viewport.h"
 #include <imgui.h>
+#include <iostream>
+
 
 namespace ink {
 
@@ -47,6 +49,13 @@ bool Viewport::init()
     // Bind default frame buffer again
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+    for (auto& [name, entity]: entities) {
+        if (!entity->init(renderers)) {
+            std::cerr << "Failed to initialise entity '" << name << "'" << std::endl;
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -72,7 +81,7 @@ void Viewport::render()
 
     // Render items
 
-    for (const auto& [_, entity]: entities) {
+    for (auto& [_, entity]: entities) {
         entity->render(renderers);
     }
     renderers.render(camera.get_view(), camera.get_projection());
@@ -104,6 +113,11 @@ void Viewport::render()
     ImGui::EndChild();
 
     camera_controller.update_pose(aspect_ratio, camera);
+}
+
+void Viewport::add_entity(const std::string& name, const std::shared_ptr<Entity>& entity)
+{
+    entities.emplace(name, entity);
 }
 
 } // namespace ink
