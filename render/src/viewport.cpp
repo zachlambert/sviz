@@ -56,6 +56,11 @@ bool Viewport::init()
         }
     }
 
+    owl::Transform3d initial_camera_pose = owl::EulerTransform3d(
+        owl::EulerRotation3d(0, 0.9, 0),
+        owl::Vector3d(-10, 0, 10)).toTransform();
+    camera_controller.init(initial_camera_pose, camera);
+
     return true;
 }
 
@@ -93,6 +98,10 @@ void Viewport::render()
     // Render image to imgui window
 
     ImGui::BeginChild("##frame");
+
+    // Must call this within the imgui frame
+    camera_controller.update_pose(aspect_ratio, camera);
+
     ImVec2 viewport_size = ImGui::GetWindowSize();
     ImVec2 uv1, uv2;
     if (viewport_size.x > aspect_ratio*viewport_size.y) {
@@ -111,8 +120,6 @@ void Viewport::render()
 
     ImGui::Image((ImTextureID)glData.texture_id, viewport_size, uv1, uv2);
     ImGui::EndChild();
-
-    camera_controller.update_pose(aspect_ratio, camera);
 }
 
 void Viewport::add_entity(const std::string& name, const std::shared_ptr<Entity>& entity)

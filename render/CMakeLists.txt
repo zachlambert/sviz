@@ -21,7 +21,7 @@ add_library(ink_render SHARED
     src/viewport.cpp
 )
 target_include_directories(ink_render
-    PRIVATE src
+    PRIVATE src shaders/headers
     PUBLIC include
 )
 target_link_libraries(ink_render

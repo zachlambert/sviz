@@ -1,18 +1,19 @@
 #include "ink/render/grid_renderer.h"
 #include "ink/render/shader.h"
-// #include "shader/grid_fs.h"
-// #include "shader/grid_vs.h"
+#include "shader/grid_fs.h"
+#include "shader/grid_vs.h"
 #include <imgui.h>
+#include <iostream> // TEMP
 
 
 namespace ink {
 
 GridRenderer::GridRenderer()
 {
-    // program_id = load_shader(
-    //     shader::grid_vs,
-    //     shader::grid_fs
-    // );
+    program_id = load_shader(
+        shader::grid_vs,
+        shader::grid_fs
+    );
     mvp_loc = glGetUniformLocation(program_id, "MVP");
 }
 
@@ -34,22 +35,6 @@ void GridRenderer::configure_grid(int grid_index, double width, double line_widt
         glGenVertexArrays(1, &grid.static_VAO);
         glGenBuffers(1, &grid.static_VBO);
         grid.initialised = true;
-
-        glBindVertexArray(grid.static_VAO);
-
-        // Position
-        glVertexAttribPointer(
-            0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-            (void*)offsetof(Vertex, position)
-        );
-        glEnableVertexAttribArray(0);
-
-        // Color
-        glVertexAttribPointer(
-            1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-            (void*)offsetof(Vertex, color)
-        );
-        glEnableVertexAttribArray(1);
     }
 
     // Generate vertices
@@ -106,6 +91,20 @@ void GridRenderer::configure_grid(int grid_index, double width, double line_widt
         &grid.vertices[0],
         GL_STATIC_DRAW
     );
+
+    // Position
+    glVertexAttribPointer(
+        0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+        (void*)offsetof(Vertex, position)
+    );
+    glEnableVertexAttribArray(0);
+
+    // Color
+    glVertexAttribPointer(
+        1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+        (void*)offsetof(Vertex, color)
+    );
+    glEnableVertexAttribArray(1);
 }
 
 void GridRenderer::queue_grid(int grid_index)
