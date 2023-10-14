@@ -49,6 +49,7 @@ FetchContent_MakeAvailable(sentinel)
 # Library
 
 add_subdirectory(gui)
+add_subdirectory(render)
 
 add_library(ink INTERFACE)
 target_link_libraries(ink INTERFACE

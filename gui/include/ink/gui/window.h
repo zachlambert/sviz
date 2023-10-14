@@ -2,7 +2,7 @@
 
 #include <array>
 #include <memory>
-#include <vector>
+#include <unordered_map>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -52,9 +52,9 @@ public:
         shutdown();
     }
 
-    void add_widget(std::shared_ptr<Widget> widget)
+    void add_widget(const std::string& name, std::shared_ptr<Widget> widget)
     {
-        this->widgets.push_back(widget);
+        this->widgets.emplace(name, widget);
     }
 
     bool running() const
@@ -66,8 +66,8 @@ public:
     {
         poll_events();
         render_start();
-        for (auto& widget: widgets) {
-            ImGui::Begin(widget->name().c_str());
+        for (auto& [name, widget]: widgets) {
+            ImGui::Begin(name.c_str());
             widget->render();
             ImGui::End();
         }
@@ -108,7 +108,7 @@ private:
     Config config;
     UserInput user_input;
 
-    std::vector<std::shared_ptr<Widget>> widgets;
+    std::unordered_map<std::string, std::shared_ptr<Widget>> widgets;
 };
 
 } // namespace ink

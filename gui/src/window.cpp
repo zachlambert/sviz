@@ -67,9 +67,9 @@ bool Window::init()
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.ConfigWindowsMoveFromTitleBarOnly = true;
 
-    for (auto& widget: widgets) {
+    for (auto& [name, widget]: widgets) {
         if (!widget->init()) {
-            std::cerr << "Failed to initialise widget '" << widget->name() << "'" << std::endl;
+            std::cerr << "Failed to initialise widget '" << name << "'" << std::endl;
             return false;
         }
     }
@@ -84,7 +84,7 @@ void Window::shutdown()
     if (!initialised) return;
     initialised = false;
 
-    for (auto& widget: widgets) {
+    for (auto& [name, widget]: widgets) {
         widget->shutdown();
     }
 

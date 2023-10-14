@@ -12,5 +12,5 @@ target_link_libraries(ink_gui
     PUBLIC imgui cpp-utils GL glfw GLEW ${CMAKE_DL_LIBS}
 )
 
-add_executable(example_gui_window example/window.cpp)
-target_link_libraries(example_gui_window PRIVATE ink_gui)
+add_executable(example_gui example/main.cpp)
+target_link_libraries(example_gui PRIVATE ink_gui)
