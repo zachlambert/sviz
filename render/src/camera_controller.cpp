@@ -15,7 +15,7 @@ void CameraController::init(const owl::EulerTransform3d& start_pose, Camera& cam
     camera.update_view(pose);
 }
 
-void CameraController::update_pose(float aspect_ratio, Camera& camera)
+void CameraController::update_pose(Camera& camera)
 {
     State current_state = State::INACTIVE;
 
@@ -65,7 +65,7 @@ void CameraController::update_pose(float aspect_ratio, Camera& camera)
     owl::Vector3d dir_cs; // Direction cameraspace
     {
         double focal_length = 1 / tan(0.5 * owl::to_radians(camera.fov_degrees));
-        dir_cs.y() = -pixel_coords.x() * aspect_ratio;
+        dir_cs.y() = -pixel_coords.x();
         dir_cs.z() = -pixel_coords.y();
         dir_cs.x() = focal_length;
         dir_cs.normalize();

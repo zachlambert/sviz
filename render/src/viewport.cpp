@@ -1,6 +1,7 @@
 #include "ink/render/viewport.h"
 #include <imgui.h>
 #include <iostream>
+#include "ink/render/marker_renderer.h"
 
 
 namespace ink {
@@ -61,12 +62,9 @@ bool Viewport::init()
         owl::Vector3d(-10, 0, 10)).toTransform();
     camera_controller.init(initial_camera_pose, camera);
 
+    renderers.get<MarkerRenderer>();
+
     return true;
-}
-
-void Viewport::shutdown()
-{
-
 }
 
 void Viewport::render()
@@ -86,6 +84,17 @@ void Viewport::render()
 
     // Render items
 
+    {
+        owl::Vector3d click_pos;
+        if (camera_controller.is_clicked(click_pos)) {
+            owl::Cylinder3d cylinder;
+            cylinder.pose.translation() = click_pos;
+            cylinder.length = 0.01;
+            cylinder.radius = 0.12;
+            renderers.get<MarkerRenderer>()->queue_primitive(cylinder, owl::ColorRGBd::White());
+        }
+    }
+
     for (auto& [_, entity]: entities) {
         entity->render(renderers);
     }
@@ -100,7 +109,7 @@ void Viewport::render()
     ImGui::BeginChild("##frame");
 
     // Must call this within the imgui frame
-    camera_controller.update_pose(aspect_ratio, camera);
+    camera_controller.update_pose(camera);
 
     ImVec2 viewport_size = ImGui::GetWindowSize();
     ImVec2 uv1, uv2;

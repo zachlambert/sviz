@@ -11,12 +11,17 @@ endfunction()
 
 add_shader(grid.fs grid_fs)
 add_shader(grid.vs grid_vs)
+add_shader(marker.fs marker_fs)
+add_shader(marker.vs marker_vs)
+add_shader(mesh.fs mesh_fs)
+add_shader(mesh.vs mesh_vs)
 add_custom_target(generated_shaders ALL DEPENDS ${shader_list})
 
 add_library(ink_render SHARED
     src/camera.cpp
     src/camera_controller.cpp
     src/grid_renderer.cpp
+    src/marker_renderer.cpp
     src/shader.cpp
     src/viewport.cpp
 )

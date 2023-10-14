@@ -12,7 +12,7 @@ public:
     CameraController();
 
     void init(const owl::EulerTransform3d& start_pose, Camera& camera);
-    void update_pose(float aspect_ratio, Camera& camera);
+    void update_pose(Camera& camera);
     bool is_clicked(owl::Vector3d& click_pos);
 
 private:
