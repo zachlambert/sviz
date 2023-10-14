@@ -11,9 +11,9 @@ class MeshRenderer: public Renderer {
 public:
     MeshRenderer();
 
-    bool load_mesh(const owl::VisualMesh& mesh, const std::string& name);
+    int load_mesh(const owl::VisualMesh& mesh);
     bool queue_mesh(
-        const std::string& name,
+        int mesh,
         const owl::Transform3d& pose,
         bool wireframe);
 
@@ -23,7 +23,7 @@ public:
 
 private:
     struct Command {
-        std::string mesh_name;
+        int mesh_index;
         owl::Matrix4f model;
         bool wireframe;
     };
@@ -35,7 +35,7 @@ private:
     unsigned int static_VAO, static_VBO, static_EBO;
 
     owl::VisualMesh mesh_data;
-    std::unordered_map<std::string, owl::MeshRange> mesh_ranges;
+    std::vector<owl::MeshRange> mesh_ranges;
 };
 
 } // namespace ink

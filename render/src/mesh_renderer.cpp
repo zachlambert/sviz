@@ -44,11 +44,9 @@ MeshRenderer::MeshRenderer()
     static_assert(sizeof(owl::ColorRGBf) == 3 * sizeof(float));
 }
 
-bool MeshRenderer::load_mesh(const owl::VisualMesh& mesh, const std::string& name) {
-    if (mesh_ranges.contains(name)) return false;
-
+int MeshRenderer::load_mesh(const owl::VisualMesh& mesh) {
     owl::MeshRange mesh_range = insert_mesh(mesh, mesh_data);
-    mesh_ranges.emplace(name, mesh_range);
+    mesh_ranges.emplace_back(mesh_range);
 
     // Rebind vertices and indices
 
@@ -74,17 +72,17 @@ bool MeshRenderer::load_mesh(const owl::VisualMesh& mesh, const std::string& nam
     static_assert(owl::VisualMesh::VertexCount == 3);
     static_assert(sizeof(owl::VisualMesh::Facet) == owl::VisualMesh::VertexCount * sizeof(owl::VisualMesh::IndexType));
 
-    return true;
+    return mesh_ranges.size() - 1;
 }
 
 bool MeshRenderer::queue_mesh(
-    const std::string& name,
+    int mesh,
     const owl::Transform3d& pose,
     bool wireframe)
 {
-    if (!mesh_ranges.contains(name)) return false;
+    if (mesh < 0 || mesh >= mesh_ranges.size()) return false;
     Command command;
-    command.mesh_name = name;
+    command.mesh_index = mesh;
     command.model = pose.cast<float>().matrix();
     command.wireframe = wireframe;
     commands.push_back(command);
@@ -109,7 +107,7 @@ void MeshRenderer::render(
         glUniformMatrix4fv(mvp_loc, 1, GL_FALSE, &mvp(0, 0));
         glUniformMatrix4fv(m_loc, 1, GL_FALSE, &m(0, 0));
 
-        const owl::MeshRange& mesh_range = mesh_ranges.at(command.mesh_name);
+        const owl::MeshRange& mesh_range = mesh_ranges[command.mesh_index];
 
         if (command.wireframe) {
             glPolygonMode(GL_FRONT, GL_LINE);
