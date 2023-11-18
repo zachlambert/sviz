@@ -1,5 +1,5 @@
-#include "ink/gui/window.h"
-#include "ink/gui/font.h"
+#include "sviz/gui/window.h"
+#include "sviz/gui/font.h"
 #include "imgui.h"
 
 #include <iostream>
@@ -7,7 +7,7 @@
 #include <filesystem>
 
 
-namespace ink {
+namespace sviz {
 
 bool Window::init()
 {
@@ -150,4 +150,4 @@ void Window::render_end()
     glfwSwapBuffers(window);
 }
 
-} // namespace ink
+} // namespace sviz

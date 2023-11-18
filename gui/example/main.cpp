@@ -1,8 +1,8 @@
 
-#include <ink/gui/window.h>
+#include <sviz/gui/window.h>
 
 
-class MessageViewer: public ink::Widget {
+class MessageViewer: public sviz::Widget {
 public:
     MessageViewer(const std::string& message):
         message_(message)
@@ -18,7 +18,7 @@ private:
 
 int main()
 {
-    ink::Window window("ink example");
+    sviz::Window window("ink example");
     window.add_widget("message a", std::make_shared<MessageViewer>("hello a"));
     window.add_widget("message b", std::make_shared<MessageViewer>("hello b"));
     window.run();

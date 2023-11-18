@@ -11,11 +11,11 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-#include "ink/gui/font.h"
-#include "ink/gui/widget.h"
+#include "sviz/gui/font.h"
+#include "sviz/gui/widget.h"
 
 
-namespace ink {
+namespace sviz {
 
 struct UserInput {
     enum class Axis {
@@ -111,4 +111,4 @@ private:
     std::unordered_map<std::string, std::shared_ptr<Widget>> widgets;
 };
 
-} // namespace ink
+} // namespace sviz

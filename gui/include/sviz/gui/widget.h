@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace ink {
+namespace sviz {
 
 class Widget {
 public:
@@ -11,4 +11,4 @@ public:
     virtual void render() {}
 };
 
-} // namespace ink
+} // namespace sviz

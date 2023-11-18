@@ -3,7 +3,7 @@
 #include <optional>
 #include <string>
 
-namespace ink {
+namespace sviz {
 
 enum class Font {
     DejaVuSans,
