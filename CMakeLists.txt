@@ -40,3 +40,40 @@ add_library(sviz INTERFACE)
 target_link_libraries(sviz INTERFACE
     sviz-gui
 )
+
+
+# Create install target
+# https://stackoverflow.com/questions/47718485/install-and-export-interface-only-library-cmake
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    "${PROJECT_BINARY_DIR}/svizConfigVersion.cmake"
+    VERSION 0.1
+    COMPATIBILITY AnyNewerVersion
+)
+
+install(
+    TARGETS
+        imgui
+        sviz-gui
+    EXPORT svizTargets
+    LIBRARY DESTINATION lib COMPONENT Runtime
+    ARCHIVE DESTINATION lib COMPONENT Development
+    RUNTIME DESTINATION bin COMPONENT Runtime
+    PUBLIC_HEADER DESTINATION include COMPONENT Development
+    BUNDLE DESTINATION bin COMPONENT Runtime
+)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    "${PROJECT_SOURCE_DIR}/cmake/svizConfig.cmake.in"
+    "${PROJECT_BINARY_DIR}/svizConfig.cmake"
+    INSTALL_DESTINATION lib/cmake/sviz
+)
+
+install(EXPORT svizTargets DESTINATION lib/cmake/sviz)
+install(FILES "${PROJECT_BINARY_DIR}/svizConfigVersion.cmake"
+              "${PROJECT_BINARY_DIR}/svizConfig.cmake"
+        DESTINATION lib/cmake/sviz)
+
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/gui/include/ DESTINATION include)

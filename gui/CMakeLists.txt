@@ -6,7 +6,9 @@ add_library(sviz-gui SHARED
 )
 target_include_directories(sviz-gui
     PRIVATE src
-    PUBLIC include
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(sviz-gui
     PUBLIC imgui cpp-utils GL glfw GLEW ${CMAKE_DL_LIBS}
