@@ -11,5 +11,6 @@ add_library(imgui SHARED
     imgui/backends/imgui_impl_glfw.cpp
 )
 target_include_directories(imgui
-    PUBLIC imgui imgui/backends
+    PUBLIC .
+    PRIVATE imgui imgui/backends
 )

@@ -54,7 +54,7 @@ write_basic_package_version_file(
 
 install(
     TARGETS
-        imgui
+        sviz
         sviz-gui
     EXPORT svizTargets
     LIBRARY DESTINATION lib COMPONENT Runtime
@@ -77,3 +77,10 @@ install(FILES "${PROJECT_BINARY_DIR}/svizConfigVersion.cmake"
         DESTINATION lib/cmake/sviz)
 
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/gui/include/ DESTINATION include)
+install(
+    FILES
+        ${PROJECT_SOURCE_DIR}/gui/libs/imgui/imgui.h
+        ${PROJECT_SOURCE_DIR}/gui/libs/imgui/imconfig.h
+    DESTINATION
+        include
+)
